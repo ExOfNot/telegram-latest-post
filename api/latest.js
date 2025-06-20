@@ -6,6 +6,22 @@ export default async function handler(req, res) {
     const response = await fetch('https://t.me/s/ofs_stom');
     const html = await response.text();
 
+    console.log('HTML snippet:', html.slice(0, 500));
+
+    const dom = new JSDOM(html);
+    const a = dom.window.document.querySelector('a.tgme_widget_message_date');
+    if (!a) {
+      console.error('Element not found in HTML');
+      return res.status(500).json({ error: 'Не найден элемент поста' });
+    }
+import fetch from 'node-fetch';
+import { JSDOM } from 'jsdom';
+
+export default async function handler(req, res) {
+  try {
+    const response = await fetch('https://t.me/s/ofs_stom');
+    const html = await response.text();
+
     const dom = new JSDOM(html);
     const a = dom.window.document.querySelector('a.tgme_widget_message_date');
     if (!a) {
